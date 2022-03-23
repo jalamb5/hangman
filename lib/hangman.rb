@@ -50,9 +50,17 @@ end
 
 class GUESS
     attr_accessor :guess, :game_word
-    def initialize(guess, game_word)
+    def initialize(guess=nil, game_word=nil)
         @guess = guess
         @game_word = game_word
+    end
+
+    def input_validation
+        guess = gets.chomp
+        unless guess.length == 1
+            puts "You must guess a single letter."
+            input_validation()
+        end
     end
 
     def guess_analyzer
@@ -72,9 +80,9 @@ class GAME
     incorrect_guess_num = 0
     gameboard = DRAW.new(game_word)
     gameboard.update_hangman()
-    while incorrect_guess_num < Pics::HANGMANPICS.length - 1
+    while incorrect_guess_num < Pics::HANGMANPICS.length - 1 # Continue to ask for guess until full hangman has been drawn
         puts "Guess a letter"
-        guess = gets.chomp
+        guess = GUESS.new().input_validation()
         correct_locations = GUESS.new(guess, game_word).guess_analyzer()
         if correct_locations == []
             incorrect_guess_num += 1
@@ -87,4 +95,3 @@ GAME.new()
 
 # TODO: make correct guesses persist
 # TODO: validate input
-# TODO: end game when out of guesses
