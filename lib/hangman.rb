@@ -22,7 +22,6 @@ class DRAW
 
     def initialize(game_word)
         @game_word = game_word
-
     end
 
     def update_hangman(incorrect_guess_num=0, guess='', correct_locations=[], word_progress=[])
@@ -47,7 +46,6 @@ class DRAW
         end
         puts word_fill.join(' ')
         return word_fill
-        
     end
 end
 
@@ -58,15 +56,15 @@ class GUESS
         @game_word = game_word
     end
 
-    def input_validation(guess, char_bank)
-        @char_bank = char_bank
+    def input_validation(guess, letters_guessed)
+        @letters_guessed = letters_guessed
         @guess = guess
-        # guess = gets.chomp
+ 
         unless guess.length == 1
             puts "You must guess a single letter."
             guess = ''
         end
-        if char_bank.include?(guess)
+        if letters_guessed.include?(guess)
             puts "You've already chosen that letter, guess another."
             guess = ''
         end
@@ -87,20 +85,23 @@ end
 class GAME
     puts "Welcome to Hangman"
     game_word = WORD.new.secret_word().chomp
+
     incorrect_guess_num = 0
-    char_bank = []
+    letters_guessed = []
     word_progress = Array.new(game_word.length, "_ ")
+
     gameboard = DRAW.new(game_word)
     gameboard.update_hangman()
+
     while incorrect_guess_num < Pics::HANGMANPICS.length - 1 # Continue to ask for guess until full hangman has been drawn
         puts "Guess a letter"
         guess = gets.chomp.downcase
-        GUESS.new().input_validation(guess, char_bank)
+        GUESS.new().input_validation(guess, letters_guessed)
         if guess == ''
-            GUESS.new().input_validation(char_bank)
+            GUESS.new().input_validation(letters_guessed)
         end
-        char_bank << guess
-        puts "Letters guessed: #{char_bank.uniq}"
+        letters_guessed << guess
+        puts "Letters guessed: #{letters_guessed.uniq}"
         correct_locations = GUESS.new(guess, game_word).guess_analyzer()
         if correct_locations == []
             incorrect_guess_num += 1
@@ -114,8 +115,7 @@ class GAME
         if game_word == word_progress.join()
             puts "\nYou win!\n\n"
             break
-        end
-        
+        end 
     end
     unless game_word == word_progress.join()
         puts "\nYou ran out of guesses! The correct word was: #{game_word}\n\n"
