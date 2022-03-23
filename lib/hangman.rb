@@ -95,7 +95,7 @@ class GAME
     gameboard.update_hangman()
     while incorrect_guess_num < Pics::HANGMANPICS.length - 1 # Continue to ask for guess until full hangman has been drawn
         puts "Guess a letter"
-        guess = gets.chomp
+        guess = gets.chomp.downcase
         GUESS.new().input_validation(guess, char_bank)
         if guess == ''
             GUESS.new().input_validation(char_bank)
