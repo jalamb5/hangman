@@ -19,14 +19,15 @@ end
 
 class DRAW
     attr_accessor :game_word, :incorrect_guess_num, :guess, :correct_locations
-    def initialize(game_word, incorrect_guess_num, guess=nil, correct_locations=[])
+    def initialize(game_word)
         @game_word = game_word
+
+    end
+
+    def update_hangman(incorrect_guess_num=0, guess=nil, correct_locations=[])
         @incorrect_guess_num = incorrect_guess_num
         @guess = guess
         @correct_locations = correct_locations
-    end
-
-    def update_hangman
         if correct_locations == []
             p incorrect_guess_num
         end
@@ -69,16 +70,21 @@ class GAME
     puts "Welcome to Hangman"
     game_word = WORD.new.secret_word().chomp
     incorrect_guess_num = 0
-    DRAW.new(game_word, 0).update_hangman()
-    while true
+    gameboard = DRAW.new(game_word)
+    gameboard.update_hangman()
+    while incorrect_guess_num < Pics::HANGMANPICS.length - 1
         puts "Guess a letter"
         guess = gets.chomp
         correct_locations = GUESS.new(guess, game_word).guess_analyzer()
         if correct_locations == []
             incorrect_guess_num += 1
         end
-        DRAW.new(game_word, incorrect_guess_num, guess, correct_locations).update_hangman()
+        gameboard.update_hangman(incorrect_guess_num, guess, correct_locations)
     end
 end
 
 GAME.new()
+
+# TODO: make correct guesses persist
+# TODO: validate input
+# TODO: end game when out of guesses
