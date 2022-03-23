@@ -87,7 +87,6 @@ end
 class GAME
     puts "Welcome to Hangman"
     game_word = WORD.new.secret_word().chomp
-    puts game_word
     incorrect_guess_num = 0
     char_bank = []
     word_progress = Array.new(game_word.length, "_ ")
