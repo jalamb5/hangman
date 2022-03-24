@@ -99,7 +99,6 @@ class SAVE
         File.open(filename, 'w') do |file|
             file.puts save_data
         end
-
     end
 
     def load_game
@@ -109,8 +108,6 @@ class SAVE
         else
             puts 'No saves found.'
         end
-
-
     end
 end
 
@@ -149,10 +146,12 @@ class GAME
                 word_progress[index] = char
             end
         end
+
         if game_word == word_progress.join()
             puts "\nYou win!\n\n"
             break
         end 
+
         puts "Save game and quit? Enter 'y' to save or any key to continue."
         save = gets.chomp.downcase
         if save == 'y'
@@ -161,11 +160,10 @@ class GAME
             break
         end
     end
+
     unless game_word == word_progress.join() || save == 'y'
         puts "\nYou ran out of guesses! The correct word was: #{game_word}\n\n"
     end
 end
 
 GAME.new()
-
-
