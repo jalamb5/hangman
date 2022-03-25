@@ -114,8 +114,8 @@ end
 class GAME
     puts "Welcome to Hangman"
     puts "Would you like to load a saved game? 'y' or 'n'"
-    open_load = gets.chomp.downcase
-    if open_load == 'y'
+    open_save = gets.chomp.downcase
+    if open_save == 'y'
         game_word, incorrect_guess_num, letters_guessed, word_progress = SAVE.new.load_game
     else
         game_word = WORD.new.secret_word().chomp
@@ -134,7 +134,7 @@ class GAME
         if guess == ''
             GUESS.new().input_validation(letters_guessed)
         end
-        letters_guessed << guess
+        letters_guessed << guess # Track all guesses
         puts "Letters guessed: #{letters_guessed.uniq}"
         correct_locations = GUESS.new(guess, game_word).guess_analyzer()
         if correct_locations == []
